@@ -10,6 +10,24 @@ module.exports = {
          * @param {CommandInteraction} interaction 
          */
     async execute(interaction) {
+       const row = new MessageActionRow()
+        .addComponents(
+            new MessageSelectMenu()
+                .setCustomId('select')
+                .setPlaceholder('Nithing selected')
+                .addOptions([
+                    {
+                        label: '1',
+                        description: '1h00',
+                        value: 'choix_1',
+                    },
+                    {
+                        label: '2',
+                        description: '2h00',
+                        value: 'choix_2',
+                    },
+                ])
+        )
         const embed = new MessageEmbed()
         .setColor('#00FFF3')
         .setAuthor({name: 'Sondage', iconURL:'https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_0aa1d7b0e0ac2c6820036b6b3dde3e5b.png'})
