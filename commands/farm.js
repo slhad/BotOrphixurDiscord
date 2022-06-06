@@ -14,7 +14,7 @@ module.exports = {
         .addComponents(
             new MessageSelectMenu()
                 .setCustomId('select')
-                .setPlaceholder('Nithing selected')
+                .setPlaceholder('Sélectionné le temps de farm')
                 .addOptions([
                     {
                         label: '1',
