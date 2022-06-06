@@ -16,7 +16,7 @@ module.exports = {
         const embed = new MessageEmbed()
         .setColor('#FF00F3')
         .setAuthor({name: 'Sondage', iconURL:'https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_f20ebb76bee675ca429e470cec58cc7b.png'})
-        .setDescription(`<@&804813354493280276> \nVeuillez répondre à ce sondage pas le biais de ces réaction :\n--------------------------------------------------------------------`)
+        .setDescription(`<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n--------------------------------------------------------------------`)
         .setThumbnail('https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_f20ebb76bee675ca429e470cec58cc7b.png')
         .setTitle('Qui veut faire un Donjon ?')
         .addFields(
