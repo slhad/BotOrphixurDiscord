@@ -8,6 +8,15 @@ const handleCommand = async (client, interaction) => {
     const command = client.commands.get(interaction.commandName);
 
     if (!command) return;
+    
+        client.on('interactionCreate', async interaction => {
+        if (!interaction.isSelectMenu()) return;
+        console.log(interaction);
+    
+        if (interaction.customId === 'select') {
+            await interaction.update({content: 'Le temps a été sélectionner', components: [] })
+        }
+    })
 
     try {
         await command.execute(interaction);
