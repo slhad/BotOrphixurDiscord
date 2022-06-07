@@ -14,24 +14,39 @@ export default {
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId("select")
-                    .setPlaceholder("Sélectionné le temps de farm")
+                    .setPlaceholder("Sélectionnez le temps de farm")
                     .addOptions([
                         {
-                            label: "1",
+                            label: "Pendant",
+                            description: "30m",
+                            value: "Pendant 30m",
+                            
+                        },
+                      
+                        {
+                            label: "Pendant",
                             description: "1h00",
-                            value: "choix_1",
+                            value: "Pendant 1h00",
                         },
                         {
-                            label: "2",
+                            label: "Pendant",
+                            description: "1h30",
+                            value: "Pendant 1h30",
+                            
+                        },
+                      
+                        {
+                            label: "Pendant",
                             description: "2h00",
-                            value: "choix_2",
+                            value: "Pendant 2h00",
                         },
                     ])
             )
+        
         const embed = new MessageEmbed()
             .setColor("#00FFF3")
             .setAuthor({ name: "Sondage", iconURL: "https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_0aa1d7b0e0ac2c6820036b6b3dde3e5b.png" })
-            .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage pas le biais de ces réaction :\n--------------------------------------------------------------------")
+            .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n--------------------------------------------------------------------")
             .setThumbnail("https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_0aa1d7b0e0ac2c6820036b6b3dde3e5b.png")
             .setTitle("Qui veut Farm avec moi ?")
             .addFields(
@@ -45,7 +60,7 @@ export default {
                 { name: "Nuit Noire :", value: "Votez avec : 😈", inline: true },
             )
 
-        const message = await interaction.reply({ embeds: [embed], fetchReply: true }) as Message
+        const message = await interaction.reply({embeds: [embed], components: [row], fetchReply: true }) as Message
         message.react("🤬")
         message.react("🤯")
         message.react("🤪")
@@ -54,6 +69,8 @@ export default {
         message.react("😚")
         message.react("🤭")
         message.react("😈")
+        
+        
     }
 
 }
