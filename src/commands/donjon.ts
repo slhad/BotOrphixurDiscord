@@ -11,7 +11,6 @@ export default {
      * @param {CommandInteraction} interaction 
      */
     async execute(interaction: CommandInteraction) {
-        const choice = interaction.options.getString("choice")
 
         const embed = new MessageEmbed()
             .setColor("#FF00F3")
