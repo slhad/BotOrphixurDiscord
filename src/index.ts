@@ -4,7 +4,6 @@ import { Token } from "../config.json"
 import { deployCommands } from "./deploy-commands"
 import { handleCommand } from "./helpers/command"
 
-
 deployCommands()
 
 export type ClientHack = Client & { commands: Collection<unknown, unknown> }
@@ -25,6 +24,18 @@ client.once("ready", () => {
 
 client.on("interactionCreate", async interaction => {
     if (interaction.isCommand()) handleCommand(client, interaction)
+})
+
+client.on("interactionCreate", async interaction => {
+    if (!interaction.isSelectMenu()) return
+    console.log(interaction)
+
+if (interaction.customId === "select") {
+
+    interaction.message.embeds[0].title += " " + interaction.values[0]
+
+    await interaction.update({ content: "Le temps a été sélectionné", components: [], embeds: interaction.message.embeds })
+}
 })
 
 client.on("messageCreate", message => {
@@ -56,6 +67,5 @@ client.on("messageCreate", message => {
         message.react("5️⃣")
     }
 })
-
 
 client.login(Token)
