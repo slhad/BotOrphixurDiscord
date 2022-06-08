@@ -14,32 +14,36 @@ export default {
         .addComponents(
             new MessageSelectMenu()
                 .setCustomId("select")
-                .setPlaceholder("Sélectionnez l'heure de L'ASSAUT")
+                .setPlaceholder("Sélectionnez le temps ou l'heure des L'ASSAUTS")
                 .addOptions([
                     {
                         label: "dans",
                         description: "10m",
-                        value: "10 minute ?",
+                        value: "dans 10 minute ?",
                         
-                    },
-                  
-                    {
-                        label: "dans",
-                        description: "20m",
-                        value: "20 minute ?",
                     },
                     {
                         label: "dans",
                         description: "30m",
-                        value: "30 minutes ?",
+                        value: "dans 30 minutes ?",
                         
                     },
-                  
                     {
                         label: "dans",
-                        description: "40m",
-                        value: "40 minutes ?",
+                        description: "1h00",
+                        value: "dans 1h00 ?",
                     },
+                    {
+                        label: "ce",
+                        description: "soir à 21h00",
+                        value: "ce soir à 21h00 ?",
+                    },
+                    {
+                        label: "ce",
+                        description: "soir à 21h30",
+                        value: "ce soir à 21h30 ou plus ?",
+                    },
+
                 ])
         )
         const embed = new MessageEmbed()
@@ -47,7 +51,7 @@ export default {
             .setAuthor({ name: "Sondage", iconURL: "https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_38e26baf417d26bb3548d97bf4872b54.png" })
             .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎")
             .setThumbnail("https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_38e26baf417d26bb3548d97bf4872b54.png")
-            .setTitle("Qui veut faire des assauts dans")
+            .setTitle("Qui veut faire des assauts ")
 
         const message = await interaction.reply({embeds: [embed], components: [row], fetchReply: true }) as Message
         message.react("👍")
