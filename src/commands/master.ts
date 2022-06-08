@@ -14,31 +14,34 @@ export default {
         .addComponents(
             new MessageSelectMenu()
                 .setCustomId("select")
-                .setPlaceholder("Sélectionnez l'heure de la GRANDMASTER")
+                .setPlaceholder("Sélectionnez le temps ou l'heure des GRANDMASTER")
                 .addOptions([
                     {
                         label: "dans",
                         description: "10m",
-                        value: "10 minute ?",
+                        value: "dans 10 minute ?",
                         
-                    },
-                  
-                    {
-                        label: "dans",
-                        description: "20m",
-                        value: "20 minute ?",
                     },
                     {
                         label: "dans",
                         description: "30m",
-                        value: "30 minutes ?",
+                        value: "dans 30 minutes ?",
                         
                     },
-                  
                     {
                         label: "dans",
-                        description: "40m",
-                        value: "40 minutes ?",
+                        description: "1h00",
+                        value: "dans 1h00 ?",
+                    },
+                    {
+                        label: "ce",
+                        description: "soir à 21h00",
+                        value: "ce soir à 21h00 ?",
+                    },
+                    {
+                        label: "ce",
+                        description: "soir à 21h30",
+                        value: "ce soir à 21h30 ?",
                     },
                 ])
         )
@@ -47,7 +50,7 @@ export default {
             .setAuthor({ name: "Sondage", iconURL: "https://www.bungie.net/common/destiny2_content/icons/48dda413d9f412ca2b10fd56a35a2665.png" })
             .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎")
             .setThumbnail("https://www.bungie.net/common/destiny2_content/icons/48dda413d9f412ca2b10fd56a35a2665.png")
-            .setTitle("Qui veut faire des GrandMaster dans")
+            .setTitle("Qui veut faire des GrandMaster ")
 
         const message = await interaction.reply({embeds: [embed], components: [row], fetchReply: true }) as Message
         message.react("👍")
