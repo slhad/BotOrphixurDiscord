@@ -14,7 +14,7 @@ export default {
             .addComponents(
                 new MessageSelectMenu()
                     .setCustomId("select")
-                    .setPlaceholder("Sélectionnez le temps de farm")
+                    .setPlaceholder("Sélectionnez le temps de FARM")
                     .addOptions([
                         {
                             label: "Pendant",
@@ -38,7 +38,7 @@ export default {
                         {
                             label: "Pendant",
                             description: "2h00",
-                            value: "Pendant 2h00 ?",
+                            value: "Pendant 2h00 ou plus ?",
                         },
                     ])
             )
