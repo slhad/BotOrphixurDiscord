@@ -14,31 +14,34 @@ export default {
         .addComponents(
             new MessageSelectMenu()
                 .setCustomId("select")
-                .setPlaceholder("Sélectionnez l'heure des NUIT NOIR")
+                .setPlaceholder("Sélectionnez le temps ou l'heure des NUITS NOIRE")
                 .addOptions([
                     {
                         label: "dans",
                         description: "10m",
-                        value: "10 minute ?",
+                        value: "dans 10 minute ?",
                         
-                    },
-                  
-                    {
-                        label: "dans",
-                        description: "20m",
-                        value: "20 minute ?",
                     },
                     {
                         label: "dans",
                         description: "30m",
-                        value: "30 minutes ?",
+                        value: "dans 30 minutes ?",
                         
                     },
-                  
                     {
                         label: "dans",
                         description: "40m",
-                        value: "40 minutes ?",
+                        value: "dans 1h00 ?",
+                    },
+                    {
+                        label: "ce",
+                        description: "soir à 21h00",
+                        value: "ce soir à 21h00 ?",
+                    },
+                    {
+                        label: "ce",
+                        description: "soir à 21h30",
+                        value: "ce soir à 21h30 ?",
                     },
                 ])
         )
@@ -47,7 +50,7 @@ export default {
             .setAuthor({ name: "Sondage", iconURL: "https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_234e7e18549d5eae2ddb012f2bcb203a.png" })
             .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎")
             .setThumbnail("https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_234e7e18549d5eae2ddb012f2bcb203a.png")
-            .setTitle("Qui veut faire des nuit noire dans")
+            .setTitle("Qui veut faire des nuit noire")
 
         const message = await interaction.reply({embeds: [embed], components: [row], fetchReply: true }) as Message
         message.react("👍")
