@@ -7,7 +7,8 @@
     "clientId": "ID bot",
     "guildId": "ID serveur Discord",
     "Token": "Token bot",
-    "channelId": "ID channel"
+    "ChannelID": "ID channel",
+    "ChannelID2": "ID channel"
 }
 ```
 
