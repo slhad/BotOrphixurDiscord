@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { CommandInteraction, Message, MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js"
+import { destinyIcons2, membresTeam } from "../constantes"
 
 export default {
     data: new SlashCommandBuilder()
@@ -47,9 +48,9 @@ export default {
         )
         const embed = new MessageEmbed()
             .setColor("#0046FF")
-            .setAuthor({ name: "Sondage", iconURL: "https://www.bungie.net/common/destiny2_content/icons/48dda413d9f412ca2b10fd56a35a2665.png" })
-            .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎")
-            .setThumbnail("https://www.bungie.net/common/destiny2_content/icons/48dda413d9f412ca2b10fd56a35a2665.png")
+            .setAuthor({ name: "Sondage", iconURL: `${destinyIcons2}/48dda413d9f412ca2b10fd56a35a2665.png`})
+            .setDescription(`${membresTeam} \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎`)
+            .setThumbnail(`${destinyIcons2}/48dda413d9f412ca2b10fd56a35a2665.png`)
             .setTitle("Qui veut faire des GrandMaster ")
 
         const message = await interaction.reply({embeds: [embed], components: [row], fetchReply: true }) as Message
