@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { CommandInteraction, Message, MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js"
+import { destinyIcons ,membresTeam} from "../constantes"
 
 export default {
     data: new SlashCommandBuilder()
@@ -48,9 +49,9 @@ export default {
         )
         const embed = new MessageEmbed()
             .setColor("#0017FF")
-            .setAuthor({ name: "Sondage", iconURL: "https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png" })
-            .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n--------------------------------------------------------------------")
-            .setThumbnail("https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png")
+            .setAuthor({ name: "Sondage", iconURL: `${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`})
+            .setDescription(`${membresTeam} \nVeuillez répondre à ce sondage par le biais de ces réactions :\n--------------------------------------------------------------------`)
+            .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`)
             .setTitle("On fait quelle RAID")
             .addFields(
                 { name: "Jardin du salut", value: "Votez avec : 🤬", inline: true },
