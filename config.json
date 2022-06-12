@@ -1,6 +1,7 @@
 {
-    "clientId": "ID bot",
-    "guildId": "ID serveur Discord",
-    "Token": "Token bot",
-    "channelId": "ID channel"
+    "clientId": "ID Bot",
+    "guildId": "ID Serveur Discord",
+    "Token": "Token Bot",
+    "ChannelID":"ID Channel",
+    "ChannelID2":"ID Channel"
 }
