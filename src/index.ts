@@ -1,6 +1,6 @@
 import { Client, Collection } from "discord.js"
 import fs from "fs"
-import { Token } from "../config.json"
+import { Token, ChannelID, ChannelID2} from "../config.json"
 import { deployCommands } from "./deploy-commands"
 import { handleCommand } from "./helpers/command"
 
@@ -22,11 +22,11 @@ client.once("ready", () => {
     console.log("Bot OK!")
 })
 
-client.on("interactionCreate", async interaction => {
+client.on("interactionCreate", async interaction => {/**Pout toute les commandes */
     if (interaction.isCommand()) handleCommand(client, interaction)
 })
 
-client.on("interactionCreate", async interaction => {
+client.on("interactionCreate", async interaction => {/**Pour MessageSelectMenu */
     if (!interaction.isSelectMenu()) return
     console.log(interaction)
 
@@ -39,31 +39,11 @@ if (interaction.customId === "select") {
 })
 
 client.on("messageCreate", message => {
-    if (message.channel.id === "882334455065374761") {
+    if (message.channel.id === ChannelID, ChannelID2) {
         message.react("1️⃣")
-    }
-})
-
-client.on("messageCreate", message => {
-    if (message.channel.id === "882334455065374761") {
         message.react("2️⃣")
-    }
-})
-
-client.on("messageCreate", message => {
-    if (message.channel.id === "882334455065374761") {
         message.react("3️⃣")
-    }
-})
-
-client.on("messageCreate", message => {
-    if (message.channel.id === "882334455065374761") {
         message.react("4️⃣")
-    }
-})
-
-client.on("messageCreate", message => {
-    if (message.channel.id === "882334455065374761") {
         message.react("5️⃣")
     }
 })
