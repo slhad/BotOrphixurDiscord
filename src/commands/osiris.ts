@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { CommandInteraction, Message, MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js"
+import { destinyIcons ,membresTeam} from "../constantes"
 
 export default {
     data: new SlashCommandBuilder()
@@ -48,9 +49,9 @@ export default {
         )
         const embed = new MessageEmbed()
             .setColor("#FFB200")
-            .setAuthor({ name: "Sondage", iconURL: "https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_e35792b49b249ca5dcdb1e7657ca42b6.png" })
-            .setDescription("<@&804813354493280276> \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎")
-            .setThumbnail("https://titles.trackercdn.com/destiny/common/destiny2_content/icons/DestinyActivityModeDefinition_e35792b49b249ca5dcdb1e7657ca42b6.png")
+            .setAuthor({ name: "Sondage", iconURL: `${destinyIcons}/DestinyActivityModeDefinition_e35792b49b249ca5dcdb1e7657ca42b6.png`})
+            .setDescription(`${membresTeam} \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎`)
+            .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_e35792b49b249ca5dcdb1e7657ca42b6.png`)
             .setTitle("Qui veut faire de l'Osiris")
 
         const message = await interaction.reply({ embeds: [embed],components: [row], fetchReply: true }) as Message
