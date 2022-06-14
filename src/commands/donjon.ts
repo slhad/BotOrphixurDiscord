@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
-import { CommandInteraction, Message, MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js"
-import { destinyIcons, membresTeam } from "../constantes"
+import { CommandInteraction, Message, MessageActionRow, MessageEmbed,MessageSelectMenu} from "discord.js"
+import { destinyIcons, membresTeam, voter} from "../constantes"
 
 export default {
     data: new SlashCommandBuilder()
@@ -48,10 +48,11 @@ export default {
                 ])
         )
 
+
         const embed = new MessageEmbed()
             .setColor("#FF00F3")
             .setAuthor({ name: "Sondage", iconURL: `${destinyIcons}/DestinyActivityModeDefinition_f20ebb76bee675ca429e470cec58cc7b.png`})
-            .setDescription(`${membresTeam} \nVeuillez répondre à ce sondage par le biais de ces réactions :\n--------------------------------------------------------------------`)
+            .setDescription(`${membresTeam} ${voter}`)
             .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_f20ebb76bee675ca429e470cec58cc7b.png`)
             .setTitle("Qui veut faire des Donjons")
             .addFields(
@@ -61,6 +62,7 @@ export default {
                 { name: "Emprise de l’avarice", value: "Votez avec : 😱", inline: true },
                 { name: "Prophétie", value: "Votez avec : 🤤", inline: true },
             )
+            
 
         const message = await interaction.reply({ embeds: [embed],components: [row], fetchReply: true }) as Message 
         message.react("🤬")
@@ -68,5 +70,8 @@ export default {
         message.react("🤪")
         message.react("😱")
         message.react("🤤")
-        }
+        
+               
+    }
 }
+
