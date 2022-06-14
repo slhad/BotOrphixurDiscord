@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { CommandInteraction, Message, MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js"
-import { destinyIcons ,membresTeam} from "../constantes"
+import { destinyIcons ,membresTeam, voter} from "../constantes"
 
 export default {
     data: new SlashCommandBuilder()
@@ -50,7 +50,7 @@ export default {
         const embed = new MessageEmbed()
             .setColor("#0017FF")
             .setAuthor({ name: "Sondage", iconURL: `${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`})
-            .setDescription(`${membresTeam} \nVeuillez répondre à ce sondage par le biais de ces réactions :\n👍 ou 👎`)
+            .setDescription(`${membresTeam} ${voter}`)
             .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`)
             .setTitle("Qui veut faire un raid")
 
