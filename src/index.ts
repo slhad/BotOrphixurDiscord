@@ -36,7 +36,7 @@ if (interaction.customId === "select") {
 
     await interaction.update({ content: "Le temps a été sélectionné", components: [], embeds: interaction.message.embeds })
 
-}
+    }
 })
 
 client.on("messageCreate", message => {
@@ -52,12 +52,9 @@ client.on("messageCreate", message => {
 const reactionManage = async (reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) => {
     console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
     const embed = reaction.message.embeds[0]
-
-    // if (embed.author?.name !== "Sondage") {
-    //     return
-    // }
-
-    const descriptionOrignal = embed.description?.split("\n")[0]
+    
+    if(embed){
+const descriptionOrignal = embed.description?.split("\n")[0]
     const descriptionReactions = []
     for (const reactionMessage of reaction.message.reactions.cache) {
         const emoji = reactionMessage[1].emoji.name || "No emoji"
@@ -70,17 +67,17 @@ const reactionManage = async (reaction: MessageReaction | PartialMessageReaction
                 userNames.push(user[1].username)
             }
         }
-        descriptionReactions.push(`\nJoueurs qui ont voté ${text} : ${userNames}\n`)
+        descriptionReactions.push(`\nJoueurs qui ont voté ${text} : ${userNames}`)
     }
-
 
     const newDescription = `${descriptionOrignal}${descriptionReactions}`
     embed.description = newDescription
     const message = await reaction.message.fetch()
     await message.edit({ embeds: [embed] })
+
+    }else if (Message){""}
 }
     client.on("messageReactionAdd", reactionManage)
     client.on("messageReactionRemove", reactionManage)
-
 
 client.login(Token)
