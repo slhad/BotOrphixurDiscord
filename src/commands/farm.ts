@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { CommandInteraction, Message, MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js"
-import { destinyIcons ,membresTeam} from "../constantes"
+import { destinyIcons ,membresTeam, voter} from "../constantes"
 
 export default {
     data: new SlashCommandBuilder()
@@ -47,7 +47,7 @@ export default {
         const embed = new MessageEmbed()
             .setColor("#00FFF3")
             .setAuthor({ name: "Sondage", iconURL: `${destinyIcons}/DestinyActivityModeDefinition_0aa1d7b0e0ac2c6820036b6b3dde3e5b.png` })
-            .setDescription(`${membresTeam} \nVeuillez répondre à ce sondage par le biais de ces réactions :\n--------------------------------------------------------------------`)
+            .setDescription(`${membresTeam} ${voter}`)
             .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_0aa1d7b0e0ac2c6820036b6b3dde3e5b.png`)
             .setTitle("Qui veut Farm avec moi")
             .addFields(
