@@ -1,6 +1,6 @@
-import { Client, Collection } from "discord.js"
+import { Client, Collection, MessageReaction, User, PartialMessageReaction, PartialUser } from "discord.js"
 import fs from "fs"
-import { Token, ChannelID, ChannelID2} from "../config.json"
+import { Token} from "../config.json"
 import { deployCommands } from "./deploy-commands"
 import { handleCommand } from "./helpers/command"
 
@@ -35,11 +35,12 @@ if (interaction.customId === "select") {
     interaction.message.embeds[0].title += " " + interaction.values[0]
 
     await interaction.update({ content: "Le temps a été sélectionné", components: [], embeds: interaction.message.embeds })
+
 }
 })
 
 client.on("messageCreate", message => {
-    if (message.channel.id === ChannelID, ChannelID2) {
+    if (message.channel.id === "980469927075020820") {
         message.react("1️⃣")
         message.react("2️⃣")
         message.react("3️⃣")
@@ -47,5 +48,39 @@ client.on("messageCreate", message => {
         message.react("5️⃣")
     }
 })
+
+const reactionManage = async (reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) => {
+    console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
+    const embed = reaction.message.embeds[0]
+
+    // if (embed.author?.name !== "Sondage") {
+    //     return
+    // }
+
+    const descriptionOrignal = embed.description?.split("\n")[0]
+    const descriptionReactions = []
+    for (const reactionMessage of reaction.message.reactions.cache) {
+        const emoji = reactionMessage[1].emoji.name || "No emoji"
+        const text = emoji
+
+        const users = await reactionMessage[1].users.fetch()
+        const userNames = []
+        for (const user of users) {
+            if (user[1].username !== "test789456431654321689") {
+                userNames.push(user[1].username)
+            }
+        }
+        descriptionReactions.push(`\nJoueurs qui ont voté ${text} : ${userNames}\n`)
+    }
+
+
+    const newDescription = `${descriptionOrignal}${descriptionReactions}`
+    embed.description = newDescription
+    const message = await reaction.message.fetch()
+    await message.edit({ embeds: [embed] })
+}
+    client.on("messageReactionAdd", reactionManage)
+    client.on("messageReactionRemove", reactionManage)
+
 
 client.login(Token)
