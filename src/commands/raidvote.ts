@@ -54,19 +54,19 @@ export default {
             .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`)
             .setTitle("On fait quelle RAID")
             .addFields(
-                { name: "Jardin du salut", value: "Votez avec : 🤬", inline: true },
-                { name: "Dernier voeux", value: "Votez avec : 🤯", inline: true },
-                { name: "Crypte de la pierre", value: "Votez avec : 🤪", inline: true },
-                { name: "Serment du disciple", value: "Votez avec : 😱", inline: true },
-                { name: "Caveau de verre", value: "Votez avec : 🤤", inline: true },
+                { name: "Jardin du salut", value: "Votez avec : 🟥", inline: true },
+                { name: "Dernier voeux", value: "Votez avec : 🟩", inline: true },
+                { name: "Crypte de la pierre", value: "Votez avec : 🟪", inline: true },
+                { name: "Serment du disciple", value: "Votez avec : 🟨", inline: true },
+                { name: "Caveau de verre", value: "Votez avec : 🟦", inline: true },
             )
 
         const message = await interaction.reply({embeds: [embed], components: [row], fetchReply: true }) as Message
-        message.react("🤬")
-        message.react("🤯")
-        message.react("🤪")
-        message.react("😱")
-        message.react("🤤")
+        message.react("🟥")
+        message.react("🟩")
+        message.react("🟪")
+        message.react("🟨")
+        message.react("🟦")
     }
 
 }
