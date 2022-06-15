@@ -1,10 +1,13 @@
-import { Client, Collection, MessageReaction, User, PartialMessageReaction, PartialUser } from "discord.js"
+import { Client, Collection } from "discord.js"
 import fs from "fs"
 import { Token} from "../config.json"
 import { deployCommands } from "./deploy-commands"
 import { handleCommand } from "./helpers/command"
+import { reactionManage } from "./emojiReaction"
 
 deployCommands()
+
+
 
 export type ClientHack = Client & { commands: Collection<unknown, unknown> }
 const client: ClientHack = new Client({ intents: 65051 }) as ClientHack
@@ -49,35 +52,8 @@ client.on("messageCreate", message => {
     }
 })
 
-const reactionManage = async (reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) => {
-    console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
-    const embed = reaction.message.embeds[0]
-    
-    if(embed){
-const descriptionOrignal = embed.description?.split("\n")[0]
-    const descriptionReactions = []
-    for (const reactionMessage of reaction.message.reactions.cache) {
-        const emoji = reactionMessage[1].emoji.name || "No emoji"
-        const text = emoji
-
-        const users = await reactionMessage[1].users.fetch()
-        const userNames = []
-        for (const user of users) {
-            if (user[1].username !== "test789456431654321689") {
-                userNames.push(user[1].username)
-            }
-        }
-        descriptionReactions.push(`\nJoueurs qui ont voté ${text} : ${userNames}`)
-    }
-
-    const newDescription = `${descriptionOrignal}${descriptionReactions}`
-    embed.description = newDescription
-    const message = await reaction.message.fetch()
-    await message.edit({ embeds: [embed] })
-
-    }else if (Message){""}
-}
     client.on("messageReactionAdd", reactionManage)
     client.on("messageReactionRemove", reactionManage)
+
 
 client.login(Token)
