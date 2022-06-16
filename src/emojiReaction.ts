@@ -27,34 +27,48 @@ const emojiTable = [
 const translateEmojiToText = (emoji: string) => {
     return emojiTable.find((emojiItem) => emojiItem.emoji === emoji)?.value
 }
+
+const ignoreUsers = () => {
+    return (process.env["USERS_IGNORE"] || "test789456431654321689").split(",")
+}
+
+const timersMemory: { [key: string]: number } = {}
+const timeIn = (timerId: string) => {
+    timersMemory[timerId] = Date.now()
+}
+
+const timeOut = (timerId: string, prefix?: string) => {
+    const timeElapsed = Date.now() - timersMemory[timerId]
+    console.log(`${prefix ? prefix + " " : ""}Time elapsed ${timeElapsed} ms`)
+}
 export
 const reactionManage = async (reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) => {
+    timeIn("reactionMessage")
     console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
     const embed = reaction.message.embeds[0]
 
     if(embed){
 
-    const descriptionOrignal = embed.description?.split("\n")[0]
-    const descriptionReactions = []
-    for (const reactionMessage of reaction.message.reactions.cache) {
-        const emoji = reactionMessage[1].emoji.name || "No emoji"
-        const text = translateEmojiToText(emoji) || emoji
-
-        const users = await reactionMessage[1].users.fetch()
-        const userNames = []
-        for (const user of users) {
-            if (user[1].username !== "test789456431654321689") {
-                userNames.push(user[1].username)
-            }
-        }
-        descriptionReactions.push(`\nJoueurs qui ont voté ${text} : ${userNames}`)
+        const descriptionOrignal = embed.description?.split("\n")[0]
+        const descriptionReactions = []
     
-
-    const newDescription = `${descriptionOrignal}${descriptionReactions}`
-    embed.description = newDescription
-    const message = (await reaction.message.fetch())
-    await message.edit({ embeds: [embed] })
-}
-
+        const userNamesS = await Promise.all(reaction.message.reactions.cache
+            .map((mr) => mr.users.fetch().then((users) => {
+                return {
+                    emoji: translateEmojiToText(mr.emoji.name || "No emoji"),
+                    users: users.filter((u) => ignoreUsers().indexOf(u.username) < 0).map(u => u.username)
+                }
+            })))
+    
+        for (const foundEmojiAndUsers of userNamesS.filter((fa) => fa.users.length > 0)) {
+            descriptionReactions.push(`\n Joueur qui ont voté pour ${(await foundEmojiAndUsers).emoji} : ${(await foundEmojiAndUsers).users.join(" / ")}`)
+        }
+    
+        const newDescription = `${descriptionOrignal}${descriptionReactions.join("")}`
+        embed.description = newDescription
+        const message = await reaction.message.fetch()
+        await message.edit({ embeds: [embed] })
+        timeOut("reactionMessage", "User reaction in description")
     }else if (Message){""}
+
 }
