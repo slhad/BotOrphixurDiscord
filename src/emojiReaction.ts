@@ -1,4 +1,4 @@
-import {MessageReaction, User, PartialMessageReaction, PartialUser, Message} from "discord.js"
+import {MessageReaction, User, PartialMessageReaction, PartialUser, Message } from "discord.js"
 
 export
 const emojiTable = [
@@ -29,7 +29,7 @@ const translateEmojiToText = (emoji: string) => {
 }
 
 const ignoreUsers = () => {
-    return (process.env["USERS_IGNORE"] || "test789456431654321689").split(",")
+    return (process.env["USERS_IGNORE"] || "Orphi Xur").split(",")
 }
 
 const timersMemory: { [key: string]: number } = {}
@@ -42,6 +42,7 @@ const timeOut = (timerId: string, prefix?: string) => {
     console.log(`${prefix ? prefix + " " : ""}Time elapsed ${timeElapsed} ms`)
 }
 export
+
 const reactionManage = async (reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) => {
     timeIn("reactionMessage")
     console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
@@ -50,7 +51,7 @@ const reactionManage = async (reaction: MessageReaction | PartialMessageReaction
     if(embed){
 
         const descriptionOrignal = embed.description?.split("\n")[0]
-        const descriptionReactions = []
+        const descriptionReactions: string[] = []
     
         const userNamesS = await Promise.all(reaction.message.reactions.cache
             .map((mr) => mr.users.fetch().then((users) => {
@@ -63,12 +64,13 @@ const reactionManage = async (reaction: MessageReaction | PartialMessageReaction
         for (const foundEmojiAndUsers of userNamesS.filter((fa) => fa.users.length > 0)) {
             descriptionReactions.push(`\n Joueur qui ont voté pour ${(await foundEmojiAndUsers).emoji} : ${(await foundEmojiAndUsers).users.join(" / ")}`)
         }
-    
+        if (userNamesS.some((emoji) => emoji.users.length > 0)) {
         const newDescription = `${descriptionOrignal}${descriptionReactions.join("")}`
         embed.description = newDescription
         const message = await reaction.message.fetch()
         await message.edit({ embeds: [embed] })
         timeOut("reactionMessage", "User reaction in description")
+    
     }else if (Message){""}
 
-}
+}}
