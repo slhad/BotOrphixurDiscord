@@ -1,6 +1,7 @@
 import {MessageReaction, User, PartialMessageReaction, PartialUser, Message } from "discord.js"
 
 export
+/** Pour modifier les emojis en Texte */
 const emojiTable = [
     { emoji: "🟢", value: "Gambit" },
     { emoji: "🔴", value: "Pvp" },
@@ -29,7 +30,7 @@ const translateEmojiToText = (emoji: string) => {
 }
 
 const ignoreUsers = () => {
-    return (process.env["USERS_IGNORE"] || "Orphi Xur").split(",")
+    return (process.env["USERS_IGNORE"] || "Nom du bot").split(",")/** mettre le NOM de votre bot entre les " " */
 }
 
 const timersMemory: { [key: string]: number } = {}
