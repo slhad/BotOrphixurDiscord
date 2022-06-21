@@ -48,9 +48,9 @@ const reactionManage = async (reaction: MessageReaction | PartialMessageReaction
     timeIn("reactionMessage")
     console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
     const embed = reaction.message.embeds[0]
-
-    if(embed){
-
+    
+        try{
+            
         const descriptionOrignal = embed.description?.split("\n")[0]
         const descriptionReactions: string[] = []
     
@@ -71,7 +71,7 @@ const reactionManage = async (reaction: MessageReaction | PartialMessageReaction
         const message = await reaction.message.fetch()
         await message.edit({ embeds: [embed] })
         timeOut("reactionMessage", "User reaction in description")
-    
-    }else if (Message){""}
-
-}}
+        }
+    }catch (error) { ""
+  }
+}
