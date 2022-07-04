@@ -12,9 +12,6 @@ export default {
             .setDescription("Ajoutez le titre du sondage")
             .setRequired(true)
             ),
-  
-
-
     /**
      * 
      * @param {CommandInteraction} interaction 
@@ -22,6 +19,7 @@ export default {
      * 
      */
     async execute(interaction: CommandInteraction) {
+        
         const string = interaction.options.getString("titre")
 
         const embed = new MessageEmbed()
@@ -30,8 +28,7 @@ export default {
         .setDescription(`${membresTeam} ${voter}`)
         .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_922ae83203f6134bae00937d12eab3a2.png`)
         .setTitle(`${string}`)
-
-        
+ 
         const message = await interaction.reply({embeds: [embed], fetchReply: true }) as Message
         message.react("👍")
         message.react("👎")
