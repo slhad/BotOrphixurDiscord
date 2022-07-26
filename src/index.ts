@@ -41,19 +41,8 @@ if (interaction.customId === "select") {
 
     }
 })
-
-client.on("messageCreate", message => {
-    if (message.channel.id === "980469927075020820") {
-        message.react("1️⃣")
-        message.react("2️⃣")
-        message.react("3️⃣")
-        message.react("4️⃣")
-        message.react("5️⃣")
-    }
-})
-
     client.on("messageReactionAdd", reactionManage)
     client.on("messageReactionRemove", reactionManage)
-
+    client.on("messageCreate", messageCreate)
 
 client.login(Token)
