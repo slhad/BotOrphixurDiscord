@@ -2,10 +2,6 @@ import { SlashCommandBuilder } from "@discordjs/builders"
 import { Message, MessageEmbed} from "discord.js"
 import { buttonsPagination } from "../helpers/buttonPagination"
 
-
-
-
-
 export default {
     data: new SlashCommandBuilder()
         .setName("button")
@@ -36,7 +32,5 @@ export default {
 
         buttonsPagination(msg,pages,time) 
        
-       
-
     }
 }
