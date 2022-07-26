@@ -1,7 +1,7 @@
 import { Message } from "discord.js"
 
 export const messageCreate = async (message:Message) => {
-    if (message.channel.id === "980469927075020820") {
+    if (message.channel.id === "   id du Channel    ") {
         message.react("0️⃣")
         message.react("1️⃣")
         message.react("2️⃣")
