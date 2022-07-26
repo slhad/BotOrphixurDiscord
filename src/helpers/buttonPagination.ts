@@ -19,8 +19,8 @@ const getButtons = (
     )
 
  export const buttonsPagination = async (msg: Message,pages: MessageEmbed[],timeout = 60000) => {
-    if (!msg || !msg.channel) throw new Error("Channel is inaccessible.")
-    if (!pages) throw new Error("Pages are not given.")
+    if (!msg || !msg.channel) throw new Error("Le channel est inaccessible")
+    if (!pages) throw new Error("Les pages n'ont pas de données")
 
     let page = 0
     const navButtonsRow = getButtons(
