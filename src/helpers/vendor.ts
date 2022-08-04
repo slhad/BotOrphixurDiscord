@@ -13,7 +13,7 @@ const summaryTtemHashes = {
 export async function getVendorDetail() {
   try{
     const { data } = await bungie.get(
-      "/Destiny2/Manifest/DestinyVendorDefinition/672118013" // 672118013 = ID banshee
+      "/Destiny2/Manifest/DestinyVendorDefinition/672118013"
     )
     const locations = data.Response.displayProperties
     locations.displayProperties = await getVendorLocations
@@ -25,10 +25,11 @@ export async function getVendorDetail() {
 }
 }
 
-export async function getVendorLocations() {
-  const locationID = await getManifest(
-    destinyManifests.DestinyVendorDefinition
-  )
+export async function getVendorLocations(displayProperties:any) {
+  const locationID = await getManifest(destinyManifests.DestinyVendorDefinition)
+  if (locationID === vendortest.banshee) {return}
+  const destination = await getManifest (destinyManifests.DestinyDestinationDefinition)
+  if (destination === summaryTtemHashes.LadernièreCité) {return}
+  destination.Object.value(displayProperties.name).summaryTtemHashes.LadernièreCité
  
-  return locationID.vendortest.banshee.locations.destinationHash.LadernièreCité
   }
