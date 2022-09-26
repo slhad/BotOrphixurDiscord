@@ -4,4 +4,18 @@
     "Token": "Token Bot",
     "ChannelID":"ID Channel",
     "ChannelID2":"ID Channel"
-}
+    "permisions": "92224",
+    "compilerOptions": {
+        "incremental": true,
+        "target": "es2019",
+        "module": "commonjs",
+        "lib": [
+          "es2019"
+        ],
+        "outDir": "./dist" ,
+        "sourceMap": true ,
+        "strict": true ,
+        "esModuleInterop": true ,
+        "forceConsistentCasingInFileNames": true 
+},
+"include": ["src/**/*"],
