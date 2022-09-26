@@ -1,13 +1,85 @@
-import { api_key } from "../../config.json"
 import axios from "axios"
+import { getProfile } from "bungie-api-ts/destiny2"
+import { DestinyComponentType } from "bungie-api-ts/destiny2/interfaces"
+import { getGroupsForMember } from "bungie-api-ts/groupv2/api"
+import { GroupsForMemberFilter, GroupType } from "bungie-api-ts/groupv2/interfaces"
+import { HttpClientConfig } from "bungie-api-ts/http"
+import { getMembershipDataById } from "bungie-api-ts/user"
+import fetch from "isomorphic-fetch"
+import { api_key, client_id, client_secret } from "../../config.json"
+import { getPublicVendors } from "bungie-api-ts/destiny2/api"
 
+const API_KEY = process.env["API_KEY"] || api_key
+const CLIENT_ID = process.env["CLIENT_ID"] || client_id
+const CLIENT_SECRET = process.env["CLIENT_SECRET"] || client_secret
 
-export const bungie = axios.create({
-  baseURL: "https://www.bungie.net/Platform",
+const bungie = axios.create({
+  baseURL: "https://www.bungie.net/",
+  timeout: 10000,
+  withCredentials: true,
   headers: {
-    Accept: "*/*",
-    "X-API-Key": api_key,
-  },
+      "X-API-Key": API_KEY,
+  }
 })
 
-bungie.defaults.headers.post["Content-Type"] = "application/json"
+export const getManifest = () => bungie.get("/Platform/Destiny2/Manifest/")
+
+export const bungieAuthedFetch = (accessToken:string) => async (
+  config: HttpClientConfig
+) => {
+  try {
+    const headers: { [key:string]: string } = {
+      "x-api-key": API_KEY
+    }
+    if (accessToken) {
+      headers.Authorization = `Brearer ${accessToken}`
+    } 
+    const url = `${config.url}${
+      config.params
+      ? "?" +
+      Object.entries(config.params).map(
+        ([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string)}`
+      )
+      : ""
+    }`
+    console.log(`aller chercher${url}`)
+    const response = await fetch(url, { headers, credentials: "include" })
+    return await response.json()
+  } catch (e) {
+  console.log(e)
+  return{}
+  }
+}
+
+export const getDestinyMembership = async (
+  bungieMembershipId:string,
+  accessToken: string,
+) => {
+  return getMembershipDataById(bungieAuthedFetch(accessToken), {
+    membershipId: bungieMembershipId,
+    membershipType: 254
+  })
+}
+
+export const getDestinyProfile = async (
+  membershipType: number,
+  destinyMembershipId: string,
+) => {
+  return getProfile(bungieAuthedFetch(" "), {
+    membershipType: membershipType,
+    destinyMembershipId: destinyMembershipId,
+    components: [DestinyComponentType.Characters,DestinyComponentType.Profiles]
+  })
+}
+
+export const getClan = async (
+  membershipType: number,
+  destinyMembershipId: string,
+) => {
+  return getGroupsForMember(bungieAuthedFetch(" "), {
+    membershipType: membershipType,
+    membershipId: destinyMembershipId,
+    groupType: GroupType.Clan,
+    filter: GroupsForMemberFilter.All
+  })
+}
