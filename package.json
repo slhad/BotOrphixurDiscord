@@ -1,8 +1,8 @@
 {
   "name": "orphixur",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/src/index.js",
+  "description": "## Remplire le fichier config.json",
+  "main": "/dist/src/index.js",
   "scripts": {
     "prestart": "npm run build",
     "start": "node .",
@@ -23,19 +23,42 @@
   "dependencies": {
     "@discordjs/builders": "^0.13.0",
     "@discordjs/rest": "^0.4.1",
+    "axios": "^0.27.2",
+    "bungie-api-ts": "2.3.0",
     "discord-api-types": "^0.33.0",
     "discord.js": "13.6.0",
-    "npm-run-all": "^4.1.5"
+    "discord.js-embed-pagination": "^1.0.2",
+    "discordjs-button-embed-pagination": "^4.0.3",
+    "discordjs-button-pagination": "^3.0.1",
+    "djs-buttons-pagination": "^1.6.2",
+    "express": "^4.18.1",
+    "html-to-json": "^0.6.0",
+    "isomorphic-fetch": "^3.0.0",
+    "mongoose": "^6.6.1",
+    "mysql": "^2.18.1",
+    "node-schedule": "^2.1.0",
+    "npm-run-all": "^4.1.5",
+    "puppeteer": "^15.1.0",
+    "reconlx": "^2.5.6",
+    "sqlite3": "^5.1.1"
   },
   "devDependencies": {
     "@jest/globals": "^28.1.0",
+    "@types/express": "^4.17.14",
+    "@types/isomorphic-fetch": "^0.0.36",
     "@types/jest": "^28.1.1",
+    "@types/mysql": "^2.15.21",
+    "@types/node": "14.18.29",
+    "@types/node-fetch": "^2.6.2",
+    "@types/node-schedule": "^2.1.0",
     "@typescript-eslint/eslint-plugin": "^5.27.1",
     "@typescript-eslint/parser": "^5.27.1",
+    "discord.js-pagination": "^1.0.3",
     "eslint": "^8.17.0",
     "jest": "^28.1.0",
+    "nodemon": "^1.19.4",
     "ts-jest": "^28.0.4",
-    "typescript": "^4.7.3"
+    "ts-node": "^8.5.2"
   },
   "jest": {
     "verbose": true,
@@ -64,5 +87,12 @@
       ],
       "quotes": "error"
     }
+  },
+  "bugs": {
+    "url": "https://github.com/fenixo76/DiscordImpersonator/issues"
+  },
+  "homepage": "https://github.com/fenixo76/DiscordImpersonator#readme",
+  "directories": {
+    "test": "tests"
   }
 }
