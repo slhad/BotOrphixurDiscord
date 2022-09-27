@@ -138,7 +138,7 @@ const dbname = "main.db"
 const db = new sqlite3.Database(dbname, err => {
     if (err) throw err
     console.log(err)
-    db.run("CREATE TABLE Discord(UserD, UserB, Token)")
+    db.run("CREATE TABLE Discord(UserD, UserB, Token, shipsT)")
 })
 
 client.on("messageReactionAdd", reactionManage)
