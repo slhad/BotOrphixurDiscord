@@ -1,13 +1,15 @@
+/* eslint-disable no-async-promise-executor */
 import { GroupUserInfoCard } from "bungie-api-ts/groupv2"
 import express  from "express"
 import fetch from "isomorphic-fetch"
-import { client_id } from "../../config.json"
+import { client_id,client_secret } from "../../config.json"
 import db, { getDiscordUser, saveDestinyMembershipData } from "../index"
 import { getClan, getDestinyMembership as bungieGetDestinyMemberShip } from "./api"
 
 export const BUNGIE_OAUTH_CLIENT_ID = process.env["BUNGIE_OAUTH_CLIENT_ID"] || client_id
 export const BUNGIE_OAUTH_AUTHORIZE_URL = "https://www.bungie.net/en/OAuth/Authorize"
 export const BUNGIE_OAUTH_TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
+
 
 const app = express()
 
@@ -26,7 +28,7 @@ export interface TokenResponseData {
     access_token: string;
     membership_id: string;
 }
-const getToken = async (autorizationCode: string) => {
+export const getToken = async (autorizationCode: string) => {
     const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
         body: `grant_type=authorization_code&code=${autorizationCode}&client_id=${BUNGIE_OAUTH_CLIENT_ID}`,
         cache: "no-cache",
@@ -139,7 +141,7 @@ app.get("/register", async (req, res) => {
             })
         }
 
-        db.run("INSERT INTO Discord(UserD, UserB, Token) VALUES(?, ?, ?)", [`${discordId}`, `${membershipData[0].membershipId}`, `${accessToken}`])
+        db.run("INSERT INTO Discord(UserD, UserB, Token, shipsT) VALUES(?, ?, ?, ?)", [`${discordId}`, `${membershipData[0].membershipId}`, `${accessToken}`, `${membershipData[0].membershipType}`])
         
         return res.json({
             membershipData,
