@@ -1,10 +1,9 @@
 import { SlashCommandBuilder } from "@discordjs/builders"
 import { CommandInteraction,  MessageEmbed } from "discord.js"
 import db from "../index"
-import { getPublicVendors } from "bungie-api-ts/destiny2/api"
 import { bungieAuthedFetch } from "../helpers/api"
-import { DestinyComponentType } from "bungie-api-ts/destiny2/interfaces" 
-
+import { getProfile, getVendors } from "bungie-api-ts/destiny2/api"
+import { DestinyComponentType } from "bungie-api-ts/destiny2"
 
 export default {
     data: new SlashCommandBuilder()
@@ -16,26 +15,39 @@ export default {
      * 
      * 
      */
-    async execute(interaction: CommandInteraction) {
+    async execute(interaction: CommandInteraction,) {
         
         db.get ("SELECT * FROM Discord", async (err,data)=> {
             if(err)
                 throw err
-                const Tokent:string = data.Token
-                
-                
-                const response = await getPublicVendors(bungieAuthedFetch(Tokent), {
-                    components:[DestinyComponentType.Vendors,DestinyComponentType.VendorSales]
-                     
-                })
-                const test = response.Response
-            console.log(test)
-            
-           
               
-                
+                const access_Token = data.Token
+                const members:string = data.UserB
+                const ShipT:number = data.shipsT
 
+                 const getDestinyProfile = async () => {
+                  return getProfile(bungieAuthedFetch(access_Token), {
+                    membershipType: ShipT,
+                    destinyMembershipId: members,
+                    components: [DestinyComponentType.Characters,DestinyComponentType.Profiles]
                   })
+                }
+                const responce = await getDestinyProfile()
+                const getIdCharter = responce.Response.profile.data?.characterIds[0]
+                const MembersId = (JSON.stringify(getIdCharter)).replace("\"","").replace("\"","")
+                console.log(MembersId)
+
+                const getVendorS = async() =>{
+                  return getVendors(bungieAuthedFetch(access_Token), {
+                    characterId:MembersId,
+                    membershipType:ShipT,
+                    destinyMembershipId:members,
+                    components:[DestinyComponentType.Vendors,DestinyComponentType.VendorSales]
+                  })
+                }
+                const response2 = await getVendorS()
+                const test = response2.Response
+              console.log(test)
 
         const embed = new MessageEmbed()
         .setColor("#FF00D8")
@@ -46,4 +58,6 @@ export default {
 
         await interaction.reply({ embeds: [embed], fetchReply: true })
         }
-    }
+    )}
+
+  }
