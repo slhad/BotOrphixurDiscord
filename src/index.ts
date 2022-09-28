@@ -56,12 +56,6 @@ client.on("interactionCreate", async interaction => {/**Pour MessageSelectMenu *
     }
 })
 
-const COMMAND_PREFIX = "!"
-
-const isCommand = (msg: string, command: string) => {
-  return msg.toLowerCase() === `${COMMAND_PREFIX}${command.toLowerCase()}`
-}
-
 export const getDiscordUser = (id: string) => {
     return client.users.cache && client.users.cache.get(id)
 }
@@ -80,31 +74,6 @@ export const saveDestinyMembershipData = (
     discordDestinyMembershipMap.set(discordId, data)
 }
 
-const getDestinyMembershipData = (discordId:string) => {
-    return discordDestinyMembershipMap.get(discordId)
-}
-
-client.on("messageCreate", message => {
-    if (!message.content.startsWith(COMMAND_PREFIX)) {
-        return
-    }
-    const { id, username } = message.author
-    console.log(`Message de: ${JSON.stringify({ id, username})}`)
-    console.log(message.content)
-
-    if (isCommand(message.content, "salut")) {
-        const destinyMembershipData = getDestinyMembershipData(id)
-        if (destinyMembershipData) {
-            message.reply(`Salut ${destinyMembershipData.displayName}!`)
-        }else {
-            message.reply("Salut étranger")
-        }
-
-        if (isCommand(message.content, "register")) {
-            message.reply(`Pour vous inscrire, veuillez visiter https://orphidia.fr:8000/register-start?discordId=${id}`)
-        }
-    }
-})
 
 const PROT = 8000
 
@@ -139,7 +108,8 @@ const db = new sqlite3.Database(dbname, err => {
     if (err) throw err
     console.log(err)
     console.log("Database stated on dbname.db")
-        db.run("CREATE TABLE IF NOT EXISTS Discord(UserD, UserB, Token, shipsT)") 
+        db.run("CREATE TABLE IF NOT EXISTS Discord(UserD, UserB, Token, shipsT)")
+        
 })
 
 client.on("messageReactionAdd", reactionManage)
