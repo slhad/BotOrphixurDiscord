@@ -140,9 +140,14 @@ app.get("/register", async (req, res) => {
                 displayName: primaryDestinyMembership.displayName
             })
         }
-
-        db.run("INSERT INTO Discord(UserD, UserB, Token, shipsT) VALUES(?, ?, ?, ?)", [`${discordId}`, `${membershipData[0].membershipId}`, `${accessToken}`, `${membershipData[0].membershipType}`])
         
+                    const responceCharter = await getDestinyProfile(
+                membershipData[0].membershipType,
+                membershipData[0].membershipId)
+            const Character = responceCharter.Response.profile.data?.characterIds[0]
+           
+        db.run("INSERT INTO Discord(UserD, UserB, Token, shipsT, Character) VALUES(?, ?, ?, ?, ?)", [`${discordId}`, `${membershipData[0].membershipId}`, `${tokenData.access_token}`, `${membershipData[0].membershipType}`,`${Character}`])
+       
         return res.json({
             membershipData,
         })
