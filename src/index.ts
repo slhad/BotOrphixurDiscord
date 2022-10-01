@@ -108,7 +108,7 @@ const db = new sqlite3.Database(dbname, err => {
     if (err) throw err
     console.log(err)
     console.log("Database stated on dbname.db")
-        db.run("CREATE TABLE IF NOT EXISTS Discord(UserD, UserB, Token, shipsT)")
+        db.run("CREATE TABLE IF NOT EXISTS Discord(UserD, UserB, Token, shipsT, Character)")
         
 })
 
