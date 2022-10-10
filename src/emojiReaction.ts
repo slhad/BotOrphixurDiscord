@@ -1,7 +1,6 @@
-import {MessageReaction, User, PartialMessageReaction, PartialUser, Message } from "discord.js"
+import { MessageReaction, PartialMessageReaction} from "discord.js" 
+import { clientId } from "../config.json"
 
-export
-/** Pour modifier les emojis en Texte */
 const emojiTable = [
     { emoji: "🟢", value: "Gambit" },
     { emoji: "🔴", value: "Pvp" },
@@ -17,43 +16,37 @@ const emojiTable = [
     { emoji: "🟩", value: "Dernier voeux" },
     { emoji: "🟪", value: "Crypte de la pierre" },
     { emoji: "🟨", value: "Serment du disciple" },
+    { emoji: "⬜", value: "La chute du roi (Oryx)" },
     { emoji: "🟦", value: "Caveau de verre" },
     { emoji: "🤬", value: "Dualité" },
     { emoji: "🤯", value: "Fosse de l’hérésie" },
     { emoji: "🤪", value: "Le trône brisé" },
     { emoji: "😱", value: "Emprise de l’avarice" },
-    { emoji: "🤤", value: "Prophétie" }
+    { emoji: "🤤", value: "Prophétie" },
+    { emoji: "😒", value: "Bof" },
 ]
+
 
 const translateEmojiToText = (emoji: string) => {
     return emojiTable.find((emojiItem) => emojiItem.emoji === emoji)?.value
 }
 
+
 const ignoreUsers = () => {
-    return (process.env["USERS_IGNORE"] || "Nom du bot").split(",")/** mettre le NOM de votre bot entre les " " */
+    return (process.env["USERS_IGNORE"] || "Orphi Xur").split(",")
 }
 
-const timersMemory: { [key: string]: number } = {}
-const timeIn = (timerId: string) => {
-    timersMemory[timerId] = Date.now()
-}
-
-const timeOut = (timerId: string, prefix?: string) => {
-    const timeElapsed = Date.now() - timersMemory[timerId]
-    console.log(`${prefix ? prefix + " " : ""}Time elapsed ${timeElapsed} ms`)
-}
 export
 
-const reactionManage = async (reaction: MessageReaction | PartialMessageReaction, user: User | PartialUser) => {
-    timeIn("reactionMessage")
-    console.log(`User ${user.username} reacted with ${reaction.emoji.name}`)
+const reactionManage = async (reaction: MessageReaction | PartialMessageReaction) => {
+
     const embed = reaction.message.embeds[0]
-    
-        try{
-            
+
+            if(reaction.message.applicationId === clientId){
+
         const descriptionOrignal = embed.description?.split("\n")[0]
         const descriptionReactions: string[] = []
-    
+        
         const userNamesS = await Promise.all(reaction.message.reactions.cache
             .map((mr) => mr.users.fetch().then((users) => {
                 return {
@@ -70,8 +63,8 @@ const reactionManage = async (reaction: MessageReaction | PartialMessageReaction
         embed.description = newDescription
         const message = await reaction.message.fetch()
         await message.edit({ embeds: [embed] })
-        timeOut("reactionMessage", "User reaction in description")
         }
-    }catch (error) { ""
-  }
-}
+    }else{
+          return undefined
+        }   
+    } 
