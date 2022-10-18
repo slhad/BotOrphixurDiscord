@@ -1,15 +1,17 @@
 /* eslint-disable no-async-promise-executor */
 import { GroupUserInfoCard } from "bungie-api-ts/groupv2"
-import express  from "express"
+import express from "express"
 import fetch from "isomorphic-fetch"
-import { client_id,client_secret } from "../../config.json"
-import db, { getDiscordUser, saveDestinyMembershipData } from "../index"
-import { getClan, getDestinyMembership as bungieGetDestinyMemberShip } from "./api"
+import { client_id, client_secret, api_key } from "../../config.json"
+import { getDiscordUser, saveDestinyMembershipData } from "../index"
+import { getClan, getDestinyMembership as bungieGetDestinyMemberShip, getDestinyProfile } from "./api"
+import { db, getData } from "./db"
 
 export const BUNGIE_OAUTH_CLIENT_ID = process.env["BUNGIE_OAUTH_CLIENT_ID"] || client_id
+export const BUNGIE_OAUTH_CLIENT_SECRET = process.env["BUNGIE_OAUTH_CLIENT_SECRET"] || client_secret
 export const BUNGIE_OAUTH_AUTHORIZE_URL = "https://www.bungie.net/en/OAuth/Authorize"
 export const BUNGIE_OAUTH_TOKEN_URL = "https://www.bungie.net/platform/app/oauth/token/"
-
+export const API_KEY = process.env["API_KEY"] || api_key
 
 const app = express()
 
@@ -26,25 +28,30 @@ app.get("/register-start", (req, res) => {
 
 export interface TokenResponseData {
     access_token: string;
+    expires_in: number
     membership_id: string;
+    refresh_expires_in: number
+    refresh_token: string
 }
-export const getToken = async (autorizationCode: string) => {
+export const getToken = async (authorizationCode: string) => {
     const tokenResponse = await fetch(BUNGIE_OAUTH_TOKEN_URL, {
-        body: `grant_type=authorization_code&code=${autorizationCode}&client_id=${BUNGIE_OAUTH_CLIENT_ID}`,
+        body: `client_id=${BUNGIE_OAUTH_CLIENT_ID}&client_secret=${BUNGIE_OAUTH_CLIENT_SECRET}&grant_type=authorization_code&code=${authorizationCode}`,
         cache: "no-cache",
         credentials: "include",
         headers: {
+            "X-API-Key": API_KEY,
             "Content-Type": "application/x-www-form-urlencoded"
         },
         method: "POST",
-        redirect: "follow",
-        referrer: "no-referrer"
     })
     if (tokenResponse.status !== 200) {
-        throw Error(`Code erreur ${tokenResponse.status} de l'échange du jeton Bungie`)
-    } console.log(tokenResponse)
+        throw Error(
+            `Status code ${tokenResponse.status} from bungie token exchange`
+        )
+    }
     return tokenResponse.json() as Promise<TokenResponseData>
 }
+
 const getDestinyMembership = async (
     bungieMembershipId: string,
     accessToken: string
@@ -63,6 +70,7 @@ const getDestinyMembership = async (
     } console.log(accessToken)
     return response.Response.destinyMemberships
 }
+
 const handleMembershipData = async (
     discordId: string,
     membershipData: GroupUserInfoCard[]
@@ -114,18 +122,23 @@ const getPrimaryDestinyMembership = async (
     } return undefined
 }
 app.get("/register", async (req, res) => {
-    const { code, state: discordId }:any = req.query
+    const { code, state: discordId } = req.query
+    if (!(typeof code === "string" && typeof discordId === "string")) {
+        return
+    }
     if (code && discordId && discordId !== "Undefined") {
 
         const tokenData = await getToken(code)
         const {
             access_token: accessToken,
-            membership_id: bungieMembershipId
+            membership_id: bungieMembershipId,
         } = tokenData
+
 
         const membershipData = await getDestinyMembership(
             bungieMembershipId,
-            accessToken
+            accessToken,
+
         )
         await handleMembershipData(discordId, membershipData)
 
@@ -140,14 +153,27 @@ app.get("/register", async (req, res) => {
                 displayName: primaryDestinyMembership.displayName
             })
         }
-        
-                    const responceCharter = await getDestinyProfile(
-                membershipData[0].membershipType,
-                membershipData[0].membershipId)
-            const Character = responceCharter.Response.profile.data?.characterIds[0]
-           
-        db.run("INSERT INTO Discord(UserD, UserB, Token, shipsT, Character) VALUES(?, ?, ?, ?, ?)", [`${discordId}`, `${membershipData[0].membershipId}`, `${tokenData.access_token}`, `${membershipData[0].membershipType}`,`${Character}`])
-       
+
+
+        const responceCharter = await getDestinyProfile(
+            membershipData[0].membershipType,
+            membershipData[0].membershipId)
+        const Character = responceCharter.Response.profile.data?.characterIds[0]
+
+        const now = Date.now()
+
+
+        db.run("INSERT INTO Discord(userD, userB, membership_id, character, shipT, access_token, expires_in, expires_in_AT, refresh_token, refresh_expires_in, refresh_expires_in_AT) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            [`${discordId}`, `${membershipData[0].membershipId}`, `${tokenData.membership_id}`, `${Character}`, `${membershipData[0].membershipType}`, `${tokenData.access_token}`, `${tokenData.expires_in}`, "", `${tokenData.refresh_token}`, `${tokenData.refresh_expires_in}`, ""])
+
+        const resp = await getData()
+
+        const dateR = now + resp.refresh_expires_in
+        const dateA = now + resp.refresh_expires_in
+
+        db.run(`UPDATE Discord SET expires_in_AT = ${dateA} WHERE ${discordId}`)
+        db.run(`UPDATE Discord SET refresh_expires_in_AT = ${dateR} WHERE ${discordId}`)
+
         return res.json({
             membershipData,
         })
