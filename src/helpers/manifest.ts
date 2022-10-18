@@ -1,104 +1,54 @@
-import { api_key } from "../../config.json"
-import { bungie } from "./api"
 import axios from "axios"
+import { getManifest } from "./api"
+class Manifest {
+    urls: any = {}
+    tables: any = {}
 
-const bungieManifest = axios.create({
-  baseURL: "https://www.bungie.net/",
-  headers: {
-    Accept: "*/*",
-    "X-API-Key": api_key,
-  },
-})
+    definitions = [
+      "DestinyVendorDefinition",
+      "DestinyDestinationDefinition",
+      "DestinyInventoryItemDefinition",
+      "DestinySandboxPerkDefinition",
+      "DestinyPlugSetDefinition",
+      "DestinyStatDefinition",
+      "DestinyDamageTypeDefinition",
+      "DestinyActivityDefinition",
+      "DestinyLocationDefinition"
+    ]
 
-bungieManifest.defaults.headers.post["Content-Type"] = "application/json"
 
+    async fetchManifest() {
+        const res = await getManifest()
+        this.urls = (res && res.data || { Responce: {} }).Response
 
-export const destinyManifests = {
-  DestinyNodeStepSummaryDefinition: "DestinyNodeStepSummaryDefinition",
-  DestinyArtDyeChannelDefinition: "DestinyArtDyeChannelDefinition",
-  DestinyArtDyeReferenceDefinition: "DestinyArtDyeReferenceDefinition",
-  DestinyPlaceDefinition: "DestinyPlaceDefinition",
-  DestinyActivityDefinition: "DestinyActivityDefinition",
-  DestinyActivityTypeDefinition: "DestinyActivityTypeDefinition",
-  DestinyClassDefinition: "DestinyClassDefinition",
-  DestinyGenderDefinition: "DestinyGenderDefinition",
-  DestinyInventoryBucketDefinition: "DestinyInventoryBucketDefinition",
-  DestinyRaceDefinition: "DestinyRaceDefinition",
-  DestinyTalentGridDefinition: "DestinyTalentGridDefinition",
-  DestinyUnlockDefinition: "DestinyUnlockDefinition",
-  DestinySandboxPerkDefinition: "DestinySandboxPerkDefinition",
-  DestinyStatGroupDefinition: "DestinyStatGroupDefinition",
-  DestinyProgressionMappingDefinition: "DestinyProgressionMappingDefinition",
-  DestinyFactionDefinition: "DestinyFactionDefinition",
-  DestinyVendorGroupDefinition: "DestinyVendorGroupDefinition",
-  DestinyRewardSourceDefinition: "DestinyRewardSourceDefinition",
-  DestinyUnlockValueDefinition: "DestinyUnlockValueDefinition",
-  DestinyRewardMappingDefinition: "DestinyRewardMappingDefinition",
-  DestinyRewardSheetDefinition: "DestinyRewardSheetDefinition",
-  DestinyItemCategoryDefinition: "DestinyItemCategoryDefinition",
-  DestinyDamageTypeDefinition: "DestinyDamageTypeDefinition",
-  DestinyActivityModeDefinition: "DestinyActivityModeDefinition",
-  DestinyMedalTierDefinition: "DestinyMedalTierDefinition",
-  DestinyAchievementDefinition: "DestinyAchievementDefinition",
-  DestinyActivityGraphDefinition: "DestinyActivityGraphDefinition",
-  DestinyActivityInteractableDefinition: "DestinyActivityInteractableDefinition",
-  DestinyBondDefinition: "DestinyBondDefinition",
-  DestinyCharacterCustomizationCategoryDefinition: "DestinyCharacterCustomizationCategoryDefinition",
-  DestinyCharacterCustomizationOptionDefinition: "DestinyCharacterCustomizationOptionDefinition",
-  DestinyCollectibleDefinition: "DestinyCollectibleDefinition",
-  DestinyDestinationDefinition: "DestinyDestinationDefinition",
-  DestinyEntitlementOfferDefinition: "DestinyEntitlementOfferDefinition",
-  DestinyEquipmentSlotDefinition: "DestinyEquipmentSlotDefinition",
-  DestinyStatDefinition: "DestinyStatDefinition",
-  DestinyInventoryItemDefinition: "DestinyInventoryItemDefinition",
-  DestinyInventoryItemLiteDefinition: "DestinyInventoryItemLiteDefinition",
-  DestinyItemTierTypeDefinition: "DestinyItemTierTypeDefinition",
-  DestinyLocationDefinition: "DestinyLocationDefinition",
-  DestinyLoreDefinition: "DestinyLoreDefinition",
-  DestinyMaterialRequirementSetDefinition: "DestinyMaterialRequirementSetDefinition",
-  DestinyMetricDefinition: "DestinyMetricDefinition",
-  DestinyObjectiveDefinition: "DestinyObjectiveDefinition",
-  DestinyPlatformBucketMappingDefinition: "DestinyPlatformBucketMappingDefinition",
-  DestinyPlugSetDefinition: "DestinyPlugSetDefinition",
-  DestinyPowerCapDefinition: "DestinyPowerCapDefinition",
-  DestinyPresentationNodeDefinition: "DestinyPresentationNodeDefinition",
-  DestinyProgressionDefinition: "DestinyProgressionDefinition",
-  DestinyProgressionLevelRequirementDefinition: "DestinyProgressionLevelRequirementDefinition",
-  DestinyRecordDefinition: "DestinyRecordDefinition",
-  DestinyRewardAdjusterPointerDefinition: "DestinyRewardAdjusterPointerDefinition",
-  DestinyRewardAdjusterProgressionMapDefinition: "DestinyRewardAdjusterProgressionMapDefinition",
-  DestinyRewardItemListDefinition: "DestinyRewardItemListDefinition",
-  DestinySackRewardItemListDefinition: "DestinySackRewardItemListDefinition",
-  DestinySandboxPatternDefinition: "DestinySandboxPatternDefinition",
-  DestinySeasonDefinition: "DestinySeasonDefinition",
-  DestinySeasonPassDefinition: "DestinySeasonPassDefinition",
-  DestinySocketCategoryDefinition: "DestinySocketCategoryDefinition",
-  DestinySocketTypeDefinition: "DestinySocketTypeDefinition",
-  DestinyTraitDefinition: "DestinyTraitDefinition",
-  DestinyTraitCategoryDefinition: "DestinyTraitCategoryDefinition",
-  DestinyUnlockCountMappingDefinition: "DestinyUnlockCountMappingDefinition",
-  DestinyUnlockEventDefinition: "DestinyUnlockEventDefinition",
-  DestinyUnlockExpressionMappingDefinition: "DestinyUnlockExpressionMappingDefinition",
-  DestinyVendorDefinition: "DestinyVendorDefinition",
-  DestinyMilestoneDefinition: "DestinyMilestoneDefinition",
-  DestinyActivityModifierDefinition: "DestinyActivityModifierDefinition",
-  DestinyReportReasonCategoryDefinition: "DestinyReportReasonCategoryDefinition",
-  DestinyArtifactDefinition: "DestinyArtifactDefinition",
-  DestinyBreakerTypeDefinition: "DestinyBreakerTypeDefinition",
-  DestinyChecklistDefinition: "DestinyChecklistDefinition",
-  DestinyEnergyTypeDefinition: "DestinyEnergyTypeDefinition",
+        for (const definition of this.definitions) {
+            const manifestUrl = "https://www.bungie.net" + this.jsonUrl(definition)
+            const res2 = await axios.get(manifestUrl)
+            console.log(`fetched manifest: ${manifestUrl}`)
+            this.tables[definition] = res2.data
+        }
+    }
+
+    jsonUrl(
+        definition = "DestinyInventoryItemDefinition",
+        lang = "fr",
+        path = "jsonWorldComponentContentPaths"
+    ) {
+        return this.urls[path][lang][definition]
+    }
+
+    t(hash: string) {
+        try {
+            for (const definition of this.definitions) {
+                const defined = this.tables[definition][hash]
+                if (defined) {
+                    return defined
+                }
+            }
+        } catch (e) {
+            return hash
+        }
+    }
 }
 
-export async function getManifest(destinyManifest:string) {
-  try {
-    const { data } = await bungie.get("/Destiny2/Manifest/")
-    const enManifests = data.Response.jsonWorldComponentContentPaths.en
-    const manifest = enManifests[destinyManifest]
-
-    const downloadedManifest = await bungieManifest.get(manifest)
-    return downloadedManifest.data
-  } catch (err) {
-    console.log(err)
-    return "Il y a une erreur"
-  }
-}
+export default new Manifest()
