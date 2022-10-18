@@ -1,7 +1,6 @@
 import { MessageReaction, PartialMessageReaction } from "discord.js"
 import { clientId } from "../config.json"
 
-
 const emojiTable = [
     { emoji: "🟢", value: "Gambit" },
     { emoji: "🔴", value: "Pvp" },
@@ -26,19 +25,13 @@ const emojiTable = [
     { emoji: "🤤", value: "Prophétie" },
     { emoji: "😒", value: "Bof" },
 ]
-
-
 const translateEmojiToText = (emoji: string) => {
     return emojiTable.find((emojiItem) => emojiItem.emoji === emoji)?.value
 }
-
-
 const ignoreUsers = () => {
-    return (process.env["USERS_IGNORE"] || "NOM DU BOT").split(",")
+    return (process.env["USERS_IGNORE"] || "Orphi Xur").split(",")
 }
-
 export
-
     const reactionManage = async (reaction: MessageReaction | PartialMessageReaction) => {
 
         const embed = reaction.message.embeds[0]
@@ -47,8 +40,8 @@ export
 
             const descriptionOrignal = embed.description?.split("\n")[0]
             const descriptionReactions: string[] = []
-
             const userNamesS = await Promise.all(reaction.message.reactions.cache
+            
                 .map((mr) => mr.users.fetch().then((users) => {
                     return {
                         emoji: translateEmojiToText(mr.emoji.name || "No emoji"),
@@ -64,9 +57,10 @@ export
                 const newDescription = `${descriptionOrignal}${descriptionReactions.join("")}`
                 embed.description = newDescription
                 const message = await reaction.message.fetch()
+                
                 await message.edit({ embeds: [embed] })
             }
         } else {
             return undefined
         }
-    } 
+    }
