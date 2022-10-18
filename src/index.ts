@@ -1,11 +1,10 @@
-import { Client, Collection } from "discord.js"
+import { Client, Collection, Message } from "discord.js"
 import fs from "fs"
 import https from "https"
-import sqlite3 from "sqlite3"
 import { clientId, Token } from "../config.json"
 import { BungieMembershipType } from "../node_modules/bungie-api-ts/user"
 import { deployCommands } from "./deploy-commands"
-import { reactionManage } from "./emojiReaction"
+import  { reactionManage }  from "./emojiReaction"
 import { handleCommand } from "./helpers/command"
 import manifest from "./helpers/manifest"
 import { messageCreate } from "./votes"
@@ -15,7 +14,7 @@ const DISCORD_BOT_CLIENT_ID = process.env["API_KEY"] || clientId
 
 deployCommands()
 
-export type ClientHack = Client & { commands: Collection<unknown, unknown> }
+export type ClientHack = Client & { commands: Collection<unknown, unknown>}
 const client: ClientHack = new Client({ intents: 65051 }) as ClientHack
 client.commands = new Collection()
 const commandFiles = fs.readdirSync("./dist/src/commands").filter(file => file.endsWith(".js"))
@@ -31,15 +30,13 @@ const setClientIdle = async () => {
     client.user && (await client.user.setPresence({ status: "idle" }))
 }
 
-const BOT_OAUTH_URL = `https://discordapp.com/api/oauth2/authorize?client_id=${DISCORD_BOT_CLIENT_ID}&permissions=65051&scope=bot`
 
 client.once("ready", () => {
     console.log("Bot OK!")
-    console.log(`va sur ce lien ${BOT_OAUTH_URL}`)
 })
 
 
-client.on("interactionCreate", async interaction => {/**Pout toute les commandes */
+client.on("interactionCreate", async interaction => {/**Pour toute les commandes */
     if (interaction.isCommand()) handleCommand(client, interaction,)
 
 })
@@ -74,7 +71,6 @@ export const saveDestinyMembershipData = (
     discordDestinyMembershipMap.set(discordId, data)
 }
 
-
 const PROT = 8000
 
 const server = https.createServer({
@@ -103,19 +99,10 @@ process.once("SIGUSR2", async () => {
     process.kill(process.pid, "SIGUSR2")
 })
 
-const dbname = "main.db"
-const db = new sqlite3.Database(dbname, err => {
-    if (err) throw err
-    console.log(err)
-    console.log("Database stated on dbname.db")
-        db.run("CREATE TABLE IF NOT EXISTS Discord(UserD, UserB, Token, shipsT, Character)")
-        
-})
-
-client.on("messageReactionAdd", reactionManage)
+client.on("messageReactionAdd",reactionManage)
 client.on("messageReactionRemove", reactionManage)
 client.on("messageCreate", messageCreate)
+
 manifest.fetchManifest()
-export default (db)
 
 client.login(Token)
