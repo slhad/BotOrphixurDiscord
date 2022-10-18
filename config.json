@@ -1,9 +1,11 @@
 {
-    "clientId": "ID Bot",
-    "guildId": "ID Serveur Discord",
-    "Token": "Token Bot",
-    "ChannelID":"ID Channel",
-    "ChannelID2":"ID Channel"
+    "clientId": " ",
+    "guildId": " ",
+    "Token": " ",
+    "ChannelID":" ",
+    "api_key": " ",
+    "client_id": " ",
+    "client_secret": " ",
     "permisions": "92224",
     "compilerOptions": {
         "incremental": true,
@@ -19,3 +21,5 @@
         "forceConsistentCasingInFileNames": true 
 },
 "include": ["src/**/*"],
+"exclude": ["node_modules"]
+}
