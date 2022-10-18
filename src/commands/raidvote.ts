@@ -52,7 +52,7 @@ export default {
             .setAuthor({ name: "Sondage", iconURL: `${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`})
             .setDescription(`${membresTeam} ${voter}`)
             .setThumbnail(`${destinyIcons}/DestinyActivityModeDefinition_bfe80e3dafe6686a9dc42df0606bdc9b.png`)
-            .setTitle("On fait quelle RAID")
+            .setTitle("On fait quel RAID")
             .addFields(
                 { name: "Jardin du salut", value: "Votez avec : 🟥", inline: true },
                 { name: "Dernier voeux", value: "Votez avec : 🟩", inline: true },
