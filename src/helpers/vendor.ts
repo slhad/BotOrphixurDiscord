@@ -13,6 +13,23 @@ export async function getItemB() {
   return {idItem:idItem, salecosts:salecosts}
 }
 
+const getDamageType = (item:any)=>{
+  switch (item.defaultDamageType){
+      case 1:
+        return Cinétiques
+      case 2:
+        return Cryo_électriques
+      case 3:
+        return Solaires
+      case 4:
+        return Abyssaux
+      case 6:
+        return Stase
+      defaut:
+        return Cinétiques
+  }
+}
+
 export async function getVendorDetailB() {
   try {
     const idItem = await getItemB()
@@ -37,89 +54,12 @@ export async function getVendorDetailB() {
   const lumen_1 = idItem.salecosts[7][1].quantity
   const eclat_1 = idItem.salecosts[7][0].quantity
 
-  let domageType_1 = "" as any
-  
-  if (item_1.defaultDamageType == 1){
-    domageType_1 = Cinétiques
-  } else if (item_1.defaultDamageType == 2){
-    domageType_1 = Cryo_électriques
-  } else if (item_1.defaultDamageType == 3){
-    domageType_1 = Solaires
-  } else if(item_1.defaultDamageType == 4){
-    domageType_1 = Abyssaux
-  } else if(item_1.defaultDamageType == 6){
-    domageType_1 = Stase
-  }
-
-  let domageType_2 = "" as any
-  
-  if (item_2.defaultDamageType == 1){
-    domageType_2 = Cinétiques
-  } else if (item_2.defaultDamageType == 2){
-    domageType_2 = Cryo_électriques
-  } else if (item_2.defaultDamageType == 3){
-    domageType_2 = Solaires
-  } else if(item_2.defaultDamageType == 4){
-    domageType_2 = Abyssaux
-  } else if(item_2.defaultDamageType == 6){
-    domageType_2 = Stase
-  }
-
-  let domageType_3 = "" as any
-  
-  if (item_3.defaultDamageType == 1){
-    domageType_3 = Cinétiques
-  } else if (item_3.defaultDamageType == 2){
-    domageType_3 = Cryo_électriques
-  } else if (item_3.defaultDamageType == 3){
-    domageType_3 = Solaires
-  } else if(item_3.defaultDamageType == 4){
-    domageType_3 = Abyssaux
-  } else if(item_3.defaultDamageType == 6){
-    domageType_3 = Stase
-  }
-
-  let domageType_4 = "" as any
-  
-  if (item_4.defaultDamageType == 1){
-    domageType_4 = Cinétiques
-  } else if (item_4.defaultDamageType == 2){
-    domageType_4 = Cryo_électriques
-  } else if (item_4.defaultDamageType == 3){
-    domageType_4 = Solaires
-  } else if(item_4.defaultDamageType == 4){
-    domageType_4 = Abyssaux
-  } else if(item_4.defaultDamageType == 6){
-    domageType_4 = Stase
-  }
-
-  let domageType_5 = "" as any
-  
-  if (item_5.defaultDamageType == 1){
-    domageType_5 = Cinétiques
-  } else if (item_5.defaultDamageType == 2){
-    domageType_5 = Cryo_électriques
-  } else if (item_5.defaultDamageType == 3){
-    domageType_5 = Solaires
-  } else if(item_5.defaultDamageType == 4){
-    domageType_5 = Abyssaux
-  } else if(item_5.defaultDamageType == 6){
-    domageType_5 = Stase
-  }
-
-  let domageType_6 = "" as any
-  
-  if (item_6.defaultDamageType == 1){
-    domageType_6 = Cinétiques
-  } else if (item_6.defaultDamageType == 2){
-    domageType_6 = Cryo_électriques
-  } else if (item_6.defaultDamageType == 3){
-    domageType_6 = Solaires
-  } else if(item_6.defaultDamageType == 4){
-    domageType_6 = Abyssaux
-  } else if(item_6.defaultDamageType == 6){
-    domageType_6 = Stase
-  }
+  const domageType_1 = getDamageType(item_1)
+  const domageType_2 = getDamageType(item_2)
+  const domageType_3 = getDamageType(item_3)
+  const domageType_4 = getDamageType(item_4)
+  const domageType_5 = getDamageType(item_5)
+  const domageType_6 = getDamageType(item_6)
 
     const bansheeResponse = manifest.t(bansheeV)
     const manifests = bansheeResponse.displayProperties
